@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Employees.BL
 {
@@ -23,14 +22,14 @@ namespace Employees.BL
             _currentTime = DateTime.Now;
         }
 
-        public async Task<IEnumerable<EmployeeProject>> ProcessFileAsync(IFormFile file)
+        public IEnumerable<EmployeeProject> ProcessFile(IFormFile file)
         {
             var result = new List<EmployeeProject>();
 
             using var reader = new StreamReader(file.OpenReadStream());
             while (reader.Peek() >= 0)
             {
-                var line = await reader.ReadLineAsync();
+                var line = reader.ReadLine();
 
                 if (string.IsNullOrEmpty(line))
                 {
@@ -59,7 +58,7 @@ namespace Employees.BL
 
         private static DateTime FormatDate(string value)
             => DateTime.TryParseExact(value, Formats, CultureInfo, DateTimeStyles.AssumeLocal, out var result)
-                ? result 
+                ? result
                 : _currentTime;
     }
 }

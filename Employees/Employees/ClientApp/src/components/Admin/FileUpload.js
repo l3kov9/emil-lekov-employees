@@ -14,7 +14,6 @@ export const FileUpload = () => {
 
         try{
             const res = await axios.post('employees', formData);
-            console.log(res);
         } catch (ex){
             console.log(ex);
         }

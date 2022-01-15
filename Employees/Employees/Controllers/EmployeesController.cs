@@ -1,7 +1,8 @@
 ﻿using Employees.BL.Contracts;
+using Employees.BL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Employees.Controllers
 {
@@ -19,12 +20,12 @@ namespace Employees.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] IFormFile file)
+        public IEnumerable<PairOfEmployees> Post([FromForm] IFormFile file)
         {
-            var employeeProjects = await _fileService.ProcessFileAsync(file);
+            var employeeProjects = _fileService.ProcessFile(file);
             var result = _employeesService.GetLongestPairs(employeeProjects);
 
-            return (ActionResult)result;
+            return result;
         }
     }
 }
