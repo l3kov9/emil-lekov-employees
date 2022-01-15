@@ -1,26 +1,31 @@
 import React from "react";
-import { FileUpload } from './FileUpload';
+import FileUpload from '../FileUpload';
+import EmployeesTable from "../EmployeesTable";
+import { registerEmployeePairs } from '../../helpers/actions';
 
 class Admin extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            employeePairs: [],
-            test: 3
+            employeePairs: []
         }
 
+        this.registerEmployeePairs = registerEmployeePairs.bind(this);
     }
 
-    ClickMe  = () =>{
-        console.log("clicked")
-        console.log(this.state.employeePairs)
-    }
+    render() {
+        const actions = { registerEmployeePairs: this.registerEmployeePairs };
 
-    render(){
         return <>
-        <FileUpload/>
-        <div onClick={this.ClickMe}>Click me</div>
+            <FileUpload actions={actions} />
+            {
+                this.state.employeePairs.length !== 0
+                    ? <EmployeesTable
+                        data={this.state.employeePairs}
+                    />
+                    : null
+            }
         </>
     }
 }
