@@ -1,3 +1,5 @@
+using Employees.BL;
+using Employees.BL.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -18,8 +20,8 @@ namespace Employees
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
+            services.AddTransient<IEmployeesService, EmployeeService>();
 
             services.AddSpaStaticFiles(configuration =>
             {
