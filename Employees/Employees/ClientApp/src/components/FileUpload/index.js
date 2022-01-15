@@ -28,8 +28,10 @@ class FileUpload extends React.Component {
     render() {
         return (
             <>
-                <input type="file" onChange={this.processFile} />
-                <input type="button" value='upload' onClick={this.uploadFile} />
+                <input className='btn btn-secondary btn-sm' type="file" onChange={this.processFile} />
+                <br />
+                <br />
+                <input className='btn btn-primary' type="button" value='Upload' onClick={this.uploadFile} />
             </>
         );
     }

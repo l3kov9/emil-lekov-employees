@@ -18,10 +18,17 @@ class Admin extends React.Component {
         const actions = { registerEmployeePairs: this.registerEmployeePairs };
 
         return <>
-            <FileUpload actions={actions} />
-            <br />
-            <br />
-            <br />
+            <p className="card text-center">
+                <span className="card-header">
+                    Pair of employees that have worked as a team for the longest time
+                </span>
+                <span className="card-body">
+                    <strong className="card-title">Upload a text file</strong>
+                    <br /><br />
+                    <FileUpload actions={actions} />
+                </span>
+            </p>
+
             {
                 this.state.employeePairs.length !== 0
                     ? <EmployeesTable

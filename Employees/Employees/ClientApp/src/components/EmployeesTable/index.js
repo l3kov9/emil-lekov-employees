@@ -6,7 +6,7 @@ import { TablePagination } from '@material-ui/core';
 
 const EmployeesTable = (props) => {
     return (<MaterialTable
-        title="Employees"
+        title="Pair of Employees"
         data={props.data}
         columns={employeePairColumns}
         options={employeePairOptions}
