@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { FileUpload } from './FileUpload';
 
 function Admin() {
-    return <>I am admin</>
+    return <FileUpload />
 }
 
 export default Admin;

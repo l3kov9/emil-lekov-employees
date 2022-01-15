@@ -22,6 +22,7 @@ namespace Employees
         {
             services.AddControllersWithViews();
             services.AddTransient<IEmployeesService, EmployeeService>();
+            services.AddTransient<IFileService, FileService>();
 
             services.AddSpaStaticFiles(configuration =>
             {
