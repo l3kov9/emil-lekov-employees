@@ -22,9 +22,9 @@ namespace Employees.Controllers
         public async Task<ActionResult> Post([FromForm] IFormFile file)
         {
             var employeeProjects = await _fileService.ProcessFileAsync(file);
-            var result = await _employeesService.GetLongestPairAsync(employeeProjects);
+            var result = _employeesService.GetLongestPairs(employeeProjects);
 
-            return null;
+            return (ActionResult)result;
         }
     }
 }

@@ -13,10 +13,15 @@ namespace Employees.BL
     public class FileService : IFileService
     {
         private static readonly CultureInfo CultureInfo = new("en-US");
-        private static readonly string[] Formats = new[] { "yyyy-MM-dd", "M-d-yyyy", "dd-MM-yyyy", "MM-dd-yyyy", "M.d.yyyy", "dd.MM.yyyy", "MM.dd.yyyy" }
+        private static readonly string[] Formats = new[] { "yyyy-MM-dd", "yyyy-M-d", "yyyy-d-M", "yyyy-dd-MM", "M-d-yyyy", "dd-MM-yyyy", "MM-dd-yyyy", "M.d.yyyy", "dd.MM.yyyy", "MM.dd.yyyy" }
             .Union(CultureInfo.DateTimeFormat.GetAllDateTimePatterns())
             .ToArray();
-        private static readonly DateTime CurrentTime = DateTime.Now;
+        private static DateTime _currentTime;
+
+        public FileService()
+        {
+            _currentTime = DateTime.Now;
+        }
 
         public async Task<IEnumerable<EmployeeProject>> ProcessFileAsync(IFormFile file)
         {
@@ -55,6 +60,6 @@ namespace Employees.BL
         private static DateTime FormatDate(string value)
             => DateTime.TryParseExact(value, Formats, CultureInfo, DateTimeStyles.AssumeLocal, out var result)
                 ? result 
-                : CurrentTime;
+                : _currentTime;
     }
 }
