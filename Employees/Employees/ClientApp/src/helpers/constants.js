@@ -21,8 +21,14 @@ export const employeePairOptions = {
     search: true,
     paging: true,
     grouping: true,
-    pageSize: 10,
+    pageSize: 5,
     emptyRowsWhenPaging: false,
-    filtering: true,
-    pageSizeOptions: [10, 25, 50]
+    filtering: false,
+    pageSizeOptions: [5, 10, 25, 50],
+    headerStyle: {
+        "fontWeight": "bold"
+    },
+    filterCellStyle: {
+        "textAlign": "center"
+    }
 };

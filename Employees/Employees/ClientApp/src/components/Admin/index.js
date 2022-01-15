@@ -19,6 +19,9 @@ class Admin extends React.Component {
 
         return <>
             <FileUpload actions={actions} />
+            <br />
+            <br />
+            <br />
             {
                 this.state.employeePairs.length !== 0
                     ? <EmployeesTable
