@@ -44,7 +44,7 @@ namespace Employees.BL
                 var startDate = e1.DateFrom > e2.DateFrom ? e1.DateFrom : e2.DateFrom;
                 var endDate = e1.DateTo < e2.DateTo ? e1.DateTo : e2.DateTo;
 
-                var diff = (endDate - startDate).Days;
+                var diff = (endDate - startDate).Days + 1;
 
                 if (diff <= 0 || _pairs.Any(x => x.Key > diff))
                     continue;
