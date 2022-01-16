@@ -4,7 +4,7 @@ export function setEmployeePairs(data) {
     )
 }
 
-export function setIsFileUploaded(isTrue){
+export function setIsFileUploaded(isTrue) {
     this.setState(
         { IsFileUploaded: isTrue }
     )
