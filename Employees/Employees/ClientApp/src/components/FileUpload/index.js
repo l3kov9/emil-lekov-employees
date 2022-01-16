@@ -28,12 +28,15 @@ class FileUpload extends React.Component {
 
         try {
             const response = await axios.post('employees', formData);
+
             setEmployeePairs(response.data);
             setIsFileUploaded(true);
             validationMessage.hidden = true;
         } catch (ex) {
+            this.setState({ isFileAttached: false })
             const errorMessage = document.getElementById('error-message');
-            if (/: .*/.test(ex.response.data)) {
+
+            if (ex.response && /: .*/.test(ex.response.data)) {
                 errorMessage.innerHTML = `Error while uploading the file${ex.response.data.match(/: .*/)[0]}`;
             }
 
@@ -47,7 +50,12 @@ class FileUpload extends React.Component {
                 <input className='btn' type="file" onChange={this.processFile} />
                 <hr />
                 <input disabled={!this.state.isFileAttached} className='btn btn-primary' type="button" value='Upload' onClick={this.uploadFile} />
-                <div id='validation-message' hidden><span id='error-message'>Error while uploading the file.</span><br />Please upload a valid one in the following format: EmpID, ProjectID, DateFrom, DateTo!</div>
+                <div id='validation-message' hidden>
+                    <span id='error-message'>
+                        Error while uploading the file.
+                    </span><br />
+                    Please upload a valid one in the following format: EmpID, ProjectID, DateFrom, DateTo!
+                </div>
             </>
         );
     }
