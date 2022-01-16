@@ -32,7 +32,11 @@ class FileUpload extends React.Component {
             setIsFileUploaded(true);
             validationMessage.hidden = true;
         } catch (ex) {
-            console.log(ex);
+            const errorMessage = document.getElementById('error-message');
+            if (/: .*/.test(ex.response.data)) {
+                errorMessage.innerHTML = `Error while uploading the file${ex.response.data.match(/: .*/)[0]}`;
+            }
+
             validationMessage.hidden = false;
             setIsFileUploaded(false);
         }
@@ -43,7 +47,7 @@ class FileUpload extends React.Component {
                 <input className='btn' type="file" onChange={this.processFile} />
                 <hr />
                 <input disabled={!this.state.isFileAttached} className='btn btn-primary' type="button" value='Upload' onClick={this.uploadFile} />
-                <div id='validation-message' hidden>Error while uploading the file.<br />Please upload a valid one in the following format: EmpID, ProjectID, DateFrom, DateTo!</div>
+                <div id='validation-message' hidden><span id='error-message'>Error while uploading the file.</span><br />Please upload a valid one in the following format: EmpID, ProjectID, DateFrom, DateTo!</div>
             </>
         );
     }

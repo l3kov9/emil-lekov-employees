@@ -1,4 +1,5 @@
 ﻿using Employees.BL.Contracts;
+using Employees.BL.Helpers;
 using Employees.BL.Models;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -26,7 +27,14 @@ namespace Employees.BL
         {
             var result = new List<EmployeeProject>();
 
-            using var reader = new StreamReader(file.OpenReadStream());
+            ReadFile(file, result);
+
+            return result;
+        }
+
+        private static void ReadFile(IFormFile file, ICollection<EmployeeProject> result)
+        {
+            var reader = new StreamReader(file.OpenReadStream());
             while (reader.Peek() >= 0)
             {
                 var line = reader.ReadLine();
@@ -36,27 +44,39 @@ namespace Employees.BL
                     continue;
                 }
 
-                var emp = ConvertToEmployeeProject(line);
-                result.Add(emp);
+                result.Add(ConvertToEmployeeProject(line));
             }
-
-            return result;
         }
 
         private static EmployeeProject ConvertToEmployeeProject(string line)
         {
-            var tokens = line.Split(", ", StringSplitOptions.RemoveEmptyEntries);
+            var tokens = line.Split(",", StringSplitOptions.TrimEntries);
+
+            if (tokens.Length != 4)
+            {
+                throw new ArgumentException(Constants.InvalidParameters(line));
+            }
 
             return new EmployeeProject()
             {
-                EmployeeId = int.Parse(tokens[0]),
-                ProjectId = int.Parse(tokens[1]),
-                DateFrom = FormatDate(tokens[2]),
-                DateTo = FormatDate(tokens[3])
+                EmployeeId = ValidateId(tokens[0]),
+                ProjectId = ValidateId(tokens[1]),
+                DateFrom = ValidateDate(tokens[2]),
+                DateTo = ValidateDate(tokens[3])
             };
         }
 
-        private static DateTime FormatDate(string value)
+        private static int ValidateId(string value)
+        {
+            if (int.TryParse(value, out var number))
+            {
+                return number;
+            }
+
+            throw new ArgumentException(Constants.InvalidArgument("Id", value));
+        }
+
+        private static DateTime ValidateDate(string value)
         {
 
             if (DateTime.TryParseExact(value, Formats, CultureInfo, DateTimeStyles.AssumeLocal, out DateTime result))
@@ -64,12 +84,12 @@ namespace Employees.BL
                 return result;
             }
 
-            if(string.IsNullOrEmpty(value) || value.Equals("NULL"))
+            if (string.IsNullOrEmpty(value) || value.Equals("NULL"))
             {
                 return _currentTime;
             }
 
-            throw new ArgumentException($"Invalid datetime argument: {value}");
+            throw new ArgumentException(Constants.InvalidArgument("Date", value));
         }
     }
 }

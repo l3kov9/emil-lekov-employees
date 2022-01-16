@@ -21,6 +21,7 @@ namespace Employees
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
             services.AddTransient<IEmployeesService, EmployeeService>();
             services.AddTransient<IFileService, FileService>();
 
