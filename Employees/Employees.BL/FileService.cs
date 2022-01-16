@@ -57,8 +57,19 @@ namespace Employees.BL
         }
 
         private static DateTime FormatDate(string value)
-            => DateTime.TryParseExact(value, Formats, CultureInfo, DateTimeStyles.AssumeLocal, out var result)
-                ? result
-                : _currentTime;
+        {
+
+            if (DateTime.TryParseExact(value, Formats, CultureInfo, DateTimeStyles.AssumeLocal, out DateTime result))
+            {
+                return result;
+            }
+
+            if(string.IsNullOrEmpty(value) || value.Equals("NULL"))
+            {
+                return _currentTime;
+            }
+
+            throw new ArgumentException($"Invalid datetime argument: {value}");
+        }
     }
 }

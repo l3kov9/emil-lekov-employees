@@ -1,38 +1,42 @@
 import React from "react";
 import FileUpload from '../FileUpload';
 import EmployeesTable from "../EmployeesTable";
-import { registerEmployeePairs } from '../../helpers/actions';
+import { setEmployeePairs, setIsFileUploaded } from '../../helpers/actions';
 
 class Admin extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            employeePairs: []
+            employeePairs: [],
+            IsFileUploaded: false
         }
 
-        this.registerEmployeePairs = registerEmployeePairs.bind(this);
+        this.setEmployeePairs = setEmployeePairs.bind(this);
+        this.setIsFileUploaded = setIsFileUploaded.bind(this);
     }
 
     render() {
-        const actions = { registerEmployeePairs: this.registerEmployeePairs };
+        const actions = {
+            setEmployeePairs: this.setEmployeePairs,
+            setIsFileUploaded: this.setIsFileUploaded
+        };
 
         return <>
-            <p className="card text-center">
-                <span className="card-header">
-                    Pair of employees that have worked as a team for the longest time
-                </span>
-                <span className="card-body">
-                    <strong className="card-title">Upload a text file</strong>
-                    <br /><br />
-                    <FileUpload actions={actions} />
-                </span>
-            </p>
+            <div className="jumbotron">
+                <h5>Pair of employees that have worked as a team for the longest time</h5>
+                <i className="card-title">Upload a text file</i>
+                <br />
+                <FileUpload actions={actions} />
+            </div>
 
             {
-                this.state.employeePairs.length !== 0
+                this.state.IsFileUploaded
                     ? <EmployeesTable
-                        data={this.state.employeePairs}
+                        data={this.state.employeePairs.length > 0
+                            ? this.state.employeePairs :
+                            []
+                        }
                     />
                     : null
             }
